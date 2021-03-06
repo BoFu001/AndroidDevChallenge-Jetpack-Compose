@@ -52,7 +52,6 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-
 var originalDuration = 10000L
 var second = 1000L
 var duration = originalDuration
