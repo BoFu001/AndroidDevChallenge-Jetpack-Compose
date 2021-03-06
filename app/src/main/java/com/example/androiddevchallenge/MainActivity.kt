@@ -19,8 +19,15 @@ import android.os.CountDownTimer
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Button
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
@@ -29,15 +36,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.androiddevchallenge.ui.theme.CircularProgress
 import com.example.androiddevchallenge.ui.theme.Header
+import com.example.androiddevchallenge.ui.theme.MyTheme
 import com.example.androiddevchallenge.ui.theme.NumberProgress
+import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 
 class MainActivity : AppCompatActivity() {
     @ExperimentalAnimationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
-            Surface(color = MaterialTheme.colors.background) {
-                MakeFrame()
+            ProvideWindowInsets {
+                MyTheme {
+                    MakeFrame()
+                }
             }
         }
     }
@@ -47,10 +59,10 @@ val originalDuration = 10000L
 var duration = originalDuration
 val second = 1000L
 var progress = mutableStateOf(duration)
-lateinit var timer: CountDownTimer
+var timer: CountDownTimer? = null
 
-fun startCountDown(){
-    timer = object: CountDownTimer(duration, second) {
+fun startCountDown() {
+    timer = object : CountDownTimer(duration, second) {
         override fun onTick(millisUntilFinished: Long) {
             progress.value -= second
         }
@@ -59,15 +71,15 @@ fun startCountDown(){
             reset()
         }
     }
-    timer.start()
+    timer?.start()
 }
 
-fun stopCountDown(){
+fun stopCountDown() {
     duration = progress.value
-    timer.cancel()
+    timer?.cancel()
 }
 
-fun reset(){
+fun reset() {
     duration = originalDuration
     progress.value = duration
 }
@@ -75,39 +87,35 @@ fun reset(){
 @ExperimentalAnimationApi
 @Preview
 @Composable
-fun MakeFrame(){
+fun MakeFrame() = Column(
+    modifier = Modifier.fillMaxSize(),
+    verticalArrangement = Arrangement.SpaceBetween
+) {
 
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.SpaceBetween
+    Column {
+        Header()
+    }
+
+    Box(
+        contentAlignment = Alignment.Center
     ) {
+        CircularProgress()
+        NumberProgress()
+    }
 
-        Column {
-            Header()
-        }
-
-        Box(
-            contentAlignment = Alignment.Center
-        ){
-            CircularProgress()
-            NumberProgress()
-        }
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(48.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly
-        ){
-            StartBtn()
-            StopBtn()
-        }
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(48.dp),
+        horizontalArrangement = Arrangement.SpaceEvenly
+    ) {
+        StartBtn()
+        StopBtn()
     }
 }
 
-
 @Composable
-fun StartBtn(){
+fun StartBtn() {
     Button(
         onClick = {
             startCountDown()
@@ -115,11 +123,10 @@ fun StartBtn(){
     ) {
         Text("START")
     }
-
 }
 
 @Composable
-fun StopBtn(){
+fun StopBtn() {
     Button(
         onClick = {
             stopCountDown()
