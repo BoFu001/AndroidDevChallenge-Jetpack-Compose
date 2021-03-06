@@ -14,48 +14,117 @@
  * limitations under the License.
  */
 package com.example.androiddevchallenge
-
 import android.os.Bundle
+import android.os.CountDownTimer
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.androiddevchallenge.ui.theme.MyTheme
+import androidx.compose.ui.unit.dp
+import com.example.androiddevchallenge.ui.theme.CircularProgress
+import com.example.androiddevchallenge.ui.theme.Header
+import com.example.androiddevchallenge.ui.theme.NumberProgress
 
 class MainActivity : AppCompatActivity() {
+    @ExperimentalAnimationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MyTheme {
-                MyApp()
+            Surface(color = MaterialTheme.colors.background) {
+                MakeFrame()
             }
         }
     }
 }
 
-// Start building your app here!
+val originalDuration = 10000L
+var duration = originalDuration
+val second = 1000L
+var progress = mutableStateOf(duration)
+lateinit var timer: CountDownTimer
+
+fun startCountDown(){
+    timer = object: CountDownTimer(duration, second) {
+        override fun onTick(millisUntilFinished: Long) {
+            progress.value -= second
+        }
+
+        override fun onFinish() {
+            reset()
+        }
+    }
+    timer.start()
+}
+
+fun stopCountDown(){
+    duration = progress.value
+    timer.cancel()
+}
+
+fun reset(){
+    duration = originalDuration
+    progress.value = duration
+}
+
+@ExperimentalAnimationApi
+@Preview
 @Composable
-fun MyApp() {
-    Surface(color = MaterialTheme.colors.background) {
-        Text(text = "test!!!")
+fun MakeFrame(){
+
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.SpaceBetween
+    ) {
+
+        Column {
+            Header()
+        }
+
+        Box(
+            contentAlignment = Alignment.Center
+        ){
+            CircularProgress()
+            NumberProgress()
+        }
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(48.dp),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ){
+            StartBtn()
+            StopBtn()
+        }
     }
 }
 
-@Preview("Light Theme", widthDp = 360, heightDp = 640)
+
 @Composable
-fun LightPreview() {
-    MyTheme {
-        MyApp()
+fun StartBtn(){
+    Button(
+        onClick = {
+            startCountDown()
+        }
+    ) {
+        Text("START")
     }
+
 }
 
-@Preview("Dark Theme", widthDp = 360, heightDp = 640)
 @Composable
-fun DarkPreview() {
-    MyTheme(darkTheme = true) {
-        MyApp()
+fun StopBtn(){
+    Button(
+        onClick = {
+            stopCountDown()
+        }
+    ) {
+        Text("STOP")
     }
 }
