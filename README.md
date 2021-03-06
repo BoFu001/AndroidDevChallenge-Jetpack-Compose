@@ -7,7 +7,7 @@
 
 ## :scroll: Description
 <!--- Describe your app in one or two sentences -->
-Hello, I'm Bo Fu. I tried my best to complete this project with Jetpack Compose. I implemented also a little bit animation, however, it is still simple. But I still like it. In this single page application you can see a time indicator and two buttons, when you tap on "START", it begains to count down, if you tap on "STOP", it stops. Is it funny?
+Hello, I'm Bo Fu. I tried my best to complete this project with Jetpack Compose. I implemented also a little bit animation, however, it is still simple. But I still like it. In this single page application you can see a time indicator and two buttons, when you tap on "START", it begins to count down, if you tap on "STOP", it stops. Is it funny?
 
 ## :bulb: Motivation and Context
 <!--- Optionally point readers to interesting parts of your submission. -->
