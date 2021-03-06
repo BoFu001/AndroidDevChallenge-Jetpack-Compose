@@ -27,8 +27,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -38,6 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.androiddevchallenge.ui.theme.CircularProgress
 import com.example.androiddevchallenge.ui.theme.Header
+import com.example.androiddevchallenge.ui.theme.MyTheme
 import com.example.androiddevchallenge.ui.theme.NumberProgress
 
 class MainActivity : AppCompatActivity() {
@@ -46,16 +45,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            Surface(color = MaterialTheme.colors.background) {
+            MyTheme {
                 MakeFrame()
             }
         }
     }
 }
 
-val originalDuration = 10000L
+var originalDuration = 10000L
+var second = 1000L
 var duration = originalDuration
-val second = 1000L
 var progress = mutableStateOf(duration)
 var timer: CountDownTimer? = null
 
