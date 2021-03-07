@@ -117,7 +117,7 @@ fun MakeFrame() = Column(
 fun StartBtn() {
     Button(
         onClick = {
-            if(!isBusy){
+            if (!isBusy) {
                 startCountDown()
                 isBusy = true
             }
@@ -131,7 +131,7 @@ fun StartBtn() {
 fun StopBtn() {
     Button(
         onClick = {
-            if(isBusy){
+            if (isBusy) {
                 isBusy = false
                 stopCountDown()
             }
