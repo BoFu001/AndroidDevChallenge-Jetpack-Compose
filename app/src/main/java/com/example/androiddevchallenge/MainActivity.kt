@@ -52,6 +52,7 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
+var isBusy = false
 var originalDuration = 10000L
 var second = 1000L
 var duration = originalDuration
@@ -77,6 +78,7 @@ fun stopCountDown() {
 }
 
 fun reset() {
+    isBusy = false
     duration = originalDuration
     progress.value = duration
 }
@@ -115,7 +117,10 @@ fun MakeFrame() = Column(
 fun StartBtn() {
     Button(
         onClick = {
-            startCountDown()
+            if(!isBusy){
+                startCountDown()
+                isBusy = true
+            }
         }
     ) {
         Text("START")
@@ -126,7 +131,10 @@ fun StartBtn() {
 fun StopBtn() {
     Button(
         onClick = {
-            stopCountDown()
+            if(isBusy){
+                isBusy = false
+                stopCountDown()
+            }
         }
     ) {
         Text("STOP")
