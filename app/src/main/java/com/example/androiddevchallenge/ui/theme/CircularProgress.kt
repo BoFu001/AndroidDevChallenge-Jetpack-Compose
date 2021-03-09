@@ -21,6 +21,7 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.ProgressIndicatorDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -32,8 +33,8 @@ import com.example.androiddevchallenge.progress
 @Composable
 fun CircularProgress() {
 
-    val progress = remember { progress }
-    val value = progress.value.toFloat() / 10000 * -1
+    val progress by remember { progress }
+    val value = progress.toFloat() / 10000 * -1
 
     val animatedProgress = animateFloatAsState(
         targetValue = value,
@@ -50,8 +51,8 @@ fun CircularProgress() {
 @Composable
 fun NumberProgress() {
 
-    val progress = remember { progress }
-    val num = progress.value / 1000
+    val progress by remember { progress }
+    val num = progress / 1000
 
     Text(
         text = num.toString(),
